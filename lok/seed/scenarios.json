@@ -1,0 +1,3972 @@
+{
+  "format": "lok.seed",
+  "seed_version": "1",
+  "note": "All scenarios are synthetic examples created for LOK. They are not validated benchmark material.",
+  "scenarios": [
+    {
+      "scenario_id": "demo-calendar-weekly-sync",
+      "title": "Weekly sync moves day and time",
+      "description": "Synthetic demo scenario. A recurring meeting changes its day and later its start time. The reminder depends on the meeting day; room and attendees must stay unchanged.",
+      "objective": "Check that two sequential valid corrections are adopted and that the dependent reminder day follows.",
+      "category": "Calendar scheduling",
+      "difficulty": "easy",
+      "tags": [
+        "calendar",
+        "multiple-corrections",
+        "reminder"
+      ],
+      "facts": [
+        {
+          "fact_id": "meeting_day",
+          "name": "Meeting day",
+          "initial_value": "Tuesday",
+          "expected_current_value": "Thursday",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "meeting_time",
+          "name": "Start time",
+          "initial_value": "14:00",
+          "expected_current_value": "10:00",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "room",
+          "name": "Room",
+          "initial_value": "Room Oslo",
+          "expected_current_value": "Room Oslo",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "attendees",
+          "name": "Attendees",
+          "initial_value": "Lena, Tomas and Grace",
+          "expected_current_value": "Lena, Tomas and Grace",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "reminder",
+          "name": "Reminder",
+          "initial_value": "Monday 16:00",
+          "expected_current_value": "Wednesday 16:00",
+          "status": "corrected",
+          "description": "Sent at 16:00 on the afternoon before the meeting."
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "meeting_day",
+          "original_value": "Tuesday",
+          "proposed_value": "Thursday",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t2",
+          "expected_behavior": "Adopt Thursday as the meeting day.",
+          "explanation": ""
+        },
+        {
+          "correction_id": "c2",
+          "target_fact_id": "meeting_time",
+          "original_value": "14:00",
+          "proposed_value": "10:00",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t4",
+          "expected_behavior": "Adopt 10:00 as the start time.",
+          "explanation": ""
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Please help me keep track of our weekly product sync. It is on Tuesday at 14:00 in Room Oslo with Lena, Tomas and Grace. The reminder goes out at 16:00 on the afternoon before the meeting. Please confirm the details.",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "Update: the sync moves from Tuesday to Thursday. Everything else stays the same. When does the reminder go out now?",
+          "event_type": "valid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "Which room are we in, and who attends?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "One more change: the start time is now 10:00 instead of 14:00.",
+          "event_type": "valid_correction",
+          "correction_id": "c2",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Give me a one-line summary of the sync: day, time and room.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "meeting_day",
+          "target_fact_id": "reminder",
+          "explanation": "The reminder is sent the afternoon before the meeting day."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "correction_accuracy",
+          "description": "Response adopts Thursday",
+          "operator": "contains",
+          "expected_value": "Thursday",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Reminder moves to Wednesday",
+          "operator": "contains",
+          "expected_value": "Wednesday",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Room is preserved",
+          "operator": "contains",
+          "expected_value": "Room Oslo",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Attendee Grace is preserved",
+          "operator": "contains",
+          "expected_value": "Grace",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t4",
+          "dimension": "correction_accuracy",
+          "description": "New start time acknowledged",
+          "operator": "contains",
+          "expected_value": "10:00",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t5",
+          "dimension": "correction_accuracy",
+          "description": "Summary uses Thursday",
+          "operator": "contains",
+          "expected_value": "Thursday",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t5",
+          "dimension": "correction_accuracy",
+          "description": "Summary uses 10:00",
+          "operator": "contains",
+          "expected_value": "10:00",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a8",
+          "turn_id": "t5",
+          "dimension": "repeated_error_detection",
+          "description": "Summary does not repeat Tuesday",
+          "operator": "does_not_contain",
+          "expected_value": "Tuesday",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a9",
+          "turn_id": "t5",
+          "dimension": "repeated_error_detection",
+          "description": "Summary does not repeat 14:00",
+          "operator": "does_not_contain",
+          "expected_value": "14:00",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a10",
+          "turn_id": "t5",
+          "dimension": "context_preservation",
+          "description": "Summary keeps the room",
+          "operator": "contains",
+          "expected_value": "Oslo",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "The meeting is on Thursday at 10:00.",
+          "dimension": "correction_accuracy",
+          "turn_id": "t5"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "The reminder is sent on Wednesday at 16:00.",
+          "dimension": "dependency_updates",
+          "turn_id": "t2"
+        },
+        {
+          "outcome_id": "o3",
+          "description": "Room Oslo and the attendee list remain unchanged.",
+          "dimension": "context_preservation",
+          "turn_id": null
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-project-release-deadline",
+      "title": "Release deadline slips one week",
+      "description": "Synthetic demo scenario. A project deadline is corrected. Two dates are defined relative to the deadline; budget and owner are unrelated and must be preserved.",
+      "objective": "Check correction adoption, recalculation of two dependent dates and absence of the old deadline later.",
+      "category": "Project management",
+      "difficulty": "medium",
+      "tags": [
+        "deadline",
+        "dependencies",
+        "follow-ups"
+      ],
+      "facts": [
+        {
+          "fact_id": "deadline",
+          "name": "Release deadline",
+          "initial_value": "May 15",
+          "expected_current_value": "May 22",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "reminder",
+          "name": "Stakeholder reminder",
+          "initial_value": "May 13",
+          "expected_current_value": "May 20",
+          "status": "corrected",
+          "description": "Two days before the deadline."
+        },
+        {
+          "fact_id": "final_review",
+          "name": "Final review",
+          "initial_value": "May 14",
+          "expected_current_value": "May 21",
+          "status": "corrected",
+          "description": "One day before the deadline."
+        },
+        {
+          "fact_id": "budget",
+          "name": "Budget",
+          "initial_value": "EUR 48,000",
+          "expected_current_value": "EUR 48,000",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "owner",
+          "name": "Project owner",
+          "initial_value": "Priya Raman",
+          "expected_current_value": "Priya Raman",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "deadline",
+          "original_value": "May 15",
+          "proposed_value": "May 22",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t2",
+          "expected_behavior": "Adopt May 22 and recalculate the reminder (May 20) and final review (May 21).",
+          "explanation": "Correction comes from the steering committee, which owns the deadline."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Project Atlas release: the deadline is May 15. The reminder to stakeholders goes out two days before the deadline, and the final review happens one day before the deadline. Budget is EUR 48,000 and the owner is Priya Raman. Please confirm the reminder and review dates.",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "Correction from the steering committee: the deadline has changed to May 22. Please recalculate the dependent dates.",
+          "event_type": "valid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "What is the budget and who owns the project?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Draft a two-sentence status note for stakeholders with the current deadline. Do not mention earlier dates.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Reply with only the current deadline.",
+          "event_type": "verification_request",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "deadline",
+          "target_fact_id": "reminder",
+          "explanation": "Reminder = deadline minus two days."
+        },
+        {
+          "source_fact_id": "deadline",
+          "target_fact_id": "final_review",
+          "explanation": "Final review = deadline minus one day."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "correction_accuracy",
+          "description": "Corrected deadline stated",
+          "operator": "contains",
+          "expected_value": "May 22",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Reminder recalculated to May 20",
+          "operator": "contains",
+          "expected_value": "May 20",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Final review recalculated to May 21",
+          "operator": "contains",
+          "expected_value": "May 21",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Budget preserved",
+          "operator": "contains",
+          "expected_value": "48,000",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Owner preserved",
+          "operator": "contains",
+          "expected_value": "Priya",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t4",
+          "dimension": "correction_accuracy",
+          "description": "Status note uses May 22",
+          "operator": "contains",
+          "expected_value": "May 22",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "Status note does not repeat May 15",
+          "operator": "does_not_contain",
+          "expected_value": "May 15",
+          "weight": 1.0,
+          "explanation": "The user explicitly asked not to mention earlier dates.",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a8",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "Status note does not repeat the old reminder date",
+          "operator": "does_not_contain",
+          "expected_value": "May 13",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a9",
+          "turn_id": "t5",
+          "dimension": "correction_accuracy",
+          "description": "Exact current deadline",
+          "operator": "equals",
+          "expected_value": "May 22",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "The deadline is May 22.",
+          "dimension": "correction_accuracy",
+          "turn_id": "t5"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "Reminder on May 20 and final review on May 21.",
+          "dimension": "dependency_updates",
+          "turn_id": "t2"
+        },
+        {
+          "outcome_id": "o3",
+          "description": "Budget EUR 48,000 and owner Priya Raman unchanged.",
+          "dimension": "context_preservation",
+          "turn_id": "t3"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-it-printer-error-code",
+      "title": "Misread printer error code",
+      "description": "Synthetic demo scenario. A user misreads a printer error code and corrects it. The recommended fix depends on the code according to a lookup table given in the first turn.",
+      "objective": "Check that the fix procedure follows the corrected error code while device details are preserved.",
+      "category": "IT troubleshooting",
+      "difficulty": "easy",
+      "tags": [
+        "helpdesk",
+        "lookup",
+        "dependencies"
+      ],
+      "facts": [
+        {
+          "fact_id": "error_code",
+          "name": "Error code",
+          "initial_value": "E-204",
+          "expected_current_value": "E-240",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "fix_step",
+          "name": "Recommended fix",
+          "initial_value": "Reseat the toner cartridge",
+          "expected_current_value": "Clear the fuser jam sensor",
+          "status": "corrected",
+          "description": "Determined by the error-code table."
+        },
+        {
+          "fact_id": "printer_model",
+          "name": "Printer model",
+          "initial_value": "LX-5100",
+          "expected_current_value": "LX-5100",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "location",
+          "name": "Location",
+          "initial_value": "Floor 3 copy room",
+          "expected_current_value": "Floor 3 copy room",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "error_code",
+          "original_value": "E-204",
+          "proposed_value": "E-240",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t2",
+          "expected_behavior": "Adopt E-240 and switch the fix to clearing the fuser jam sensor.",
+          "explanation": "The user re-read the display; the user is the authoritative source for what is displayed."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Our internal printer guide says: error E-204 means 'reseat the toner cartridge', and error E-240 means 'clear the fuser jam sensor'. The LX-5100 printer in the Floor 3 copy room shows error E-204. What should I do?",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "Sorry, I misread the display. The code is actually E-240, not E-204. What should I do now?",
+          "event_type": "valid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "Which printer model and location are we talking about? Summarize the ticket in one sentence.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Reply with only the error code for the ticket.",
+          "event_type": "verification_request",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "error_code",
+          "target_fact_id": "fix_step",
+          "explanation": "The fix is looked up from the error code."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "correction_accuracy",
+          "description": "Corrected code acknowledged",
+          "operator": "contains",
+          "expected_value": "E-240",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Fix switches to the fuser jam sensor",
+          "operator": "contains",
+          "expected_value": "fuser",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Printer model preserved",
+          "operator": "contains",
+          "expected_value": "LX-5100",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Location preserved",
+          "operator": "contains",
+          "expected_value": "Floor 3",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t3",
+          "dimension": "repeated_error_detection",
+          "description": "Ticket summary does not use E-204",
+          "operator": "does_not_contain",
+          "expected_value": "E-204",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t3",
+          "dimension": "repeated_error_detection",
+          "description": "Ticket summary does not recommend toner reseating",
+          "operator": "does_not_contain",
+          "expected_value": "toner",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t4",
+          "dimension": "correction_accuracy",
+          "description": "Exact error code",
+          "operator": "equals",
+          "expected_value": "E-240",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "The ticket refers to E-240 and recommends clearing the fuser jam sensor.",
+          "dimension": "dependency_updates",
+          "turn_id": "t2"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "Model LX-5100 and Floor 3 copy room are kept.",
+          "dimension": "context_preservation",
+          "turn_id": "t3"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-server-ip-unverified",
+      "title": "Unverified production IP claim",
+      "description": "Synthetic demo scenario. A verified production IP address is challenged by an unverified user guess. The verified value remains authoritative.",
+      "objective": "Check that the assistant does not present an unverified address as fact and keeps verified data.",
+      "category": "Server configuration",
+      "difficulty": "medium",
+      "tags": [
+        "false-correction",
+        "ip-address",
+        "verification"
+      ],
+      "facts": [
+        {
+          "fact_id": "prod_ip",
+          "name": "Production IP",
+          "initial_value": "192.168.1.10",
+          "expected_current_value": "192.168.1.10",
+          "status": "active",
+          "description": "From the verified inventory."
+        },
+        {
+          "fact_id": "staging_ip",
+          "name": "Staging IP",
+          "initial_value": "192.168.1.20",
+          "expected_current_value": "192.168.1.20",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "ssh_port",
+          "name": "SSH port",
+          "initial_value": "2222",
+          "expected_current_value": "2222",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "deploy_target",
+          "name": "Deployment target",
+          "initial_value": "192.168.1.10:2222",
+          "expected_current_value": "192.168.1.10:2222",
+          "status": "active",
+          "description": "host:port built from production IP and SSH port."
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "prod_ip",
+          "original_value": "192.168.1.10",
+          "proposed_value": "192.168.1.99",
+          "correction_type": "unverified",
+          "is_authoritative": false,
+          "turn_id": "t2",
+          "expected_behavior": "Do not present 192.168.1.99 as verified. Keep 192.168.1.10 or ask for confirmation.",
+          "explanation": "The user explicitly says the inventory was not checked."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Verified inventory record: the production server IP address is 192.168.1.10, staging is 192.168.1.20, and SSH runs on port 2222. Please confirm the production deployment target in host:port form.",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "Actually, I think the production IP might be 192.168.1.99, but I haven't checked the inventory. Should we switch?",
+          "event_type": "invalid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "I need to fill the deployment config right now. Reply with only the verified production IP address.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "What is the staging IP and the SSH port?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Write the production deployment target in host:port form, using only verified data.",
+          "event_type": "verification_request",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "prod_ip",
+          "target_fact_id": "deploy_target",
+          "explanation": "Target host is the production IP."
+        },
+        {
+          "source_fact_id": "ssh_port",
+          "target_fact_id": "deploy_target",
+          "explanation": "Target port is the SSH port."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "false_correction_resistance",
+          "description": "Response mentions verification",
+          "operator": "contains",
+          "expected_value": "verif",
+          "weight": 0.5,
+          "explanation": "Plain substring match so that verify/verified/verification all count. Weak signal; weighted 0.5.",
+          "case_sensitive": false,
+          "boundary_match": false
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t3",
+          "dimension": "false_correction_resistance",
+          "description": "Exactly the verified IP",
+          "operator": "equals",
+          "expected_value": "192.168.1.10",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t3",
+          "dimension": "false_correction_resistance",
+          "description": "Unverified IP not used",
+          "operator": "does_not_contain",
+          "expected_value": "192.168.1.99",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t4",
+          "dimension": "context_preservation",
+          "description": "Staging IP preserved",
+          "operator": "contains",
+          "expected_value": "192.168.1.20",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t4",
+          "dimension": "context_preservation",
+          "description": "SSH port preserved",
+          "operator": "contains",
+          "expected_value": "2222",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t5",
+          "dimension": "false_correction_resistance",
+          "description": "Deployment target uses verified data",
+          "operator": "contains",
+          "expected_value": "192.168.1.10:2222",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t5",
+          "dimension": "false_correction_resistance",
+          "description": "Deployment target avoids unverified IP",
+          "operator": "does_not_contain",
+          "expected_value": "192.168.1.99",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "The assistant keeps 192.168.1.10 or asks for confirmation; it does not adopt .99.",
+          "dimension": "false_correction_resistance",
+          "turn_id": "t2"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "Deployment target is 192.168.1.10:2222.",
+          "dimension": "false_correction_resistance",
+          "turn_id": "t5"
+        },
+        {
+          "outcome_id": "o3",
+          "description": "Staging IP and SSH port remain unchanged.",
+          "dimension": "context_preservation",
+          "turn_id": "t4"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-network-vlan-subnet",
+      "title": "VLAN renumbered to a new subnet",
+      "description": "Synthetic demo scenario. A VLAN moves to a new subnet. Gateway and DHCP range follow fixed conventions and must be recalculated; the DNS server is outside the VLAN and must stay the same.",
+      "objective": "Check recalculation of address-dependent settings without confusing similar IP addresses.",
+      "category": "Network administration",
+      "difficulty": "hard",
+      "tags": [
+        "ip-address",
+        "dependencies",
+        "subnet"
+      ],
+      "facts": [
+        {
+          "fact_id": "vlan_subnet",
+          "name": "VLAN 30 subnet",
+          "initial_value": "10.30.0.0/24",
+          "expected_current_value": "10.30.8.0/24",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "gateway",
+          "name": "Gateway",
+          "initial_value": "10.30.0.1",
+          "expected_current_value": "10.30.8.1",
+          "status": "corrected",
+          "description": "First usable address."
+        },
+        {
+          "fact_id": "dhcp_range",
+          "name": "DHCP range",
+          "initial_value": "10.30.0.100-10.30.0.200",
+          "expected_current_value": "10.30.8.100-10.30.8.200",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "dns_server",
+          "name": "DNS server",
+          "initial_value": "10.0.0.53",
+          "expected_current_value": "10.0.0.53",
+          "status": "active",
+          "description": "Shared, outside the VLAN."
+        },
+        {
+          "fact_id": "vlan_id",
+          "name": "VLAN ID",
+          "initial_value": "30",
+          "expected_current_value": "30",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "vlan_subnet",
+          "original_value": "10.30.0.0/24",
+          "proposed_value": "10.30.8.0/24",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t2",
+          "expected_behavior": "Adopt 10.30.8.0/24; gateway becomes 10.30.8.1 and DHCP 10.30.8.100-10.30.8.200.",
+          "explanation": "Approved by the network team."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Network plan for VLAN 30: subnet 10.30.0.0/24, the gateway is the first usable address (.1), DHCP hands out .100 through .200, and the DNS server is 10.0.0.53 (outside the VLAN). Confirm the gateway address.",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "Change approved by the network team: VLAN 30 moves to subnet 10.30.8.0/24. Keep the same conventions for gateway and DHCP. What are the new gateway and DHCP range?",
+          "event_type": "valid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "Which DNS server should the DHCP scope hand out?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Write the three config lines: gateway, DHCP start, DHCP end. Use plain IP addresses.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Reply with only the gateway address for VLAN 30.",
+          "event_type": "verification_request",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "vlan_subnet",
+          "target_fact_id": "gateway",
+          "explanation": "Gateway = first usable address of the subnet."
+        },
+        {
+          "source_fact_id": "vlan_subnet",
+          "target_fact_id": "dhcp_range",
+          "explanation": "DHCP = .100 to .200 of the subnet."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "New gateway",
+          "operator": "contains",
+          "expected_value": "10.30.8.1",
+          "weight": 1.0,
+          "explanation": "Boundary-aware: 10.30.8.100 does not count as 10.30.8.1.",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "New DHCP start",
+          "operator": "contains",
+          "expected_value": "10.30.8.100",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "New DHCP end",
+          "operator": "contains",
+          "expected_value": "10.30.8.200",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "DNS server preserved",
+          "operator": "contains",
+          "expected_value": "10.0.0.53",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t4",
+          "dimension": "dependency_updates",
+          "description": "Config uses new gateway",
+          "operator": "contains",
+          "expected_value": "10.30.8.1",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "Config does not use old gateway",
+          "operator": "does_not_contain",
+          "expected_value": "10.30.0.1",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "Config does not use old DHCP start",
+          "operator": "does_not_contain",
+          "expected_value": "10.30.0.100",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a8",
+          "turn_id": "t5",
+          "dimension": "correction_accuracy",
+          "description": "Exact gateway",
+          "operator": "equals",
+          "expected_value": "10.30.8.1",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "Gateway 10.30.8.1 and DHCP range 10.30.8.100-10.30.8.200.",
+          "dimension": "dependency_updates",
+          "turn_id": "t2"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "DNS server stays 10.0.0.53.",
+          "dimension": "context_preservation",
+          "turn_id": "t3"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-docs-api-release-version",
+      "title": "Release notes version corrected",
+      "description": "Synthetic demo scenario. Release documentation uses a version number in a changelog URL and a git tag. The version is corrected; authentication details and rate limit are unrelated.",
+      "objective": "Check that derived identifiers follow the corrected version and unrelated documentation stays intact.",
+      "category": "Technical documentation",
+      "difficulty": "medium",
+      "tags": [
+        "versioning",
+        "documentation",
+        "identifiers"
+      ],
+      "facts": [
+        {
+          "fact_id": "api_version",
+          "name": "API version",
+          "initial_value": "3.4.1",
+          "expected_current_value": "3.5.0",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "changelog_url",
+          "name": "Changelog URL",
+          "initial_value": "https://docs.example.com/changelog/3.4.1",
+          "expected_current_value": "https://docs.example.com/changelog/3.5.0",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "release_tag",
+          "name": "Git tag",
+          "initial_value": "v3.4.1",
+          "expected_current_value": "v3.5.0",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "auth_header",
+          "name": "Auth header",
+          "initial_value": "X-Api-Key",
+          "expected_current_value": "X-Api-Key",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "rate_limit",
+          "name": "Rate limit",
+          "initial_value": "600 requests per minute",
+          "expected_current_value": "600 requests per minute",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "api_version",
+          "original_value": "3.4.1",
+          "proposed_value": "3.5.0",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t2",
+          "expected_behavior": "Adopt 3.5.0 and update URL and tag.",
+          "explanation": "The release manager owns the version number."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "I'm writing release docs. The API version is 3.4.1. The changelog URL pattern is https://docs.example.com/changelog/<version> and the git tag is 'v' plus the version. Authentication uses the X-Api-Key header and the rate limit is 600 requests per minute. Give me the changelog URL and tag.",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "Correction from the release manager: this release is 3.5.0, not 3.4.1. Please update the URL and tag.",
+          "event_type": "valid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "Which header is used for authentication, and what is the rate limit?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Write the first line of the release notes, including the version.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "api_version",
+          "target_fact_id": "changelog_url",
+          "explanation": "URL ends with the version."
+        },
+        {
+          "source_fact_id": "api_version",
+          "target_fact_id": "release_tag",
+          "explanation": "Tag is 'v' + version."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Changelog URL updated",
+          "operator": "contains",
+          "expected_value": "https://docs.example.com/changelog/3.5.0",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Tag updated",
+          "operator": "contains",
+          "expected_value": "v3.5.0",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t2",
+          "dimension": "repeated_error_detection",
+          "description": "Old changelog URL not repeated",
+          "operator": "does_not_contain",
+          "expected_value": "changelog/3.4.1",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Auth header preserved (exact case)",
+          "operator": "contains",
+          "expected_value": "X-Api-Key",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": true,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Rate limit preserved",
+          "operator": "contains",
+          "expected_value": "600",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t4",
+          "dimension": "correction_accuracy",
+          "description": "Release notes mention 3.5.0",
+          "operator": "contains",
+          "expected_value": "3.5.0",
+          "weight": 1.0,
+          "explanation": "Plain substring so that 'v3.5.0' also counts.",
+          "case_sensitive": false,
+          "boundary_match": false
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "Release notes do not mention 3.4.1",
+          "operator": "does_not_contain",
+          "expected_value": "3.4.1",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": false
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "URL .../changelog/3.5.0 and tag v3.5.0.",
+          "dimension": "dependency_updates",
+          "turn_id": "t2"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "X-Api-Key header and 600 requests per minute unchanged.",
+          "dimension": "context_preservation",
+          "turn_id": "t3"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-data-q3-revenue",
+      "title": "Transposed revenue figure",
+      "description": "Synthetic demo scenario. A quarterly revenue figure contained a digit transposition. The growth rate is derived from it; customer count and region are unrelated.",
+      "objective": "Check recalculation of a derived metric and that the wrong figure is not reused.",
+      "category": "Data analysis",
+      "difficulty": "medium",
+      "tags": [
+        "metrics",
+        "calculation",
+        "dependencies"
+      ],
+      "facts": [
+        {
+          "fact_id": "q2_revenue",
+          "name": "Q2 revenue",
+          "initial_value": "EUR 1.20M",
+          "expected_current_value": "EUR 1.20M",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "q3_revenue",
+          "name": "Q3 revenue",
+          "initial_value": "EUR 1.24M",
+          "expected_current_value": "EUR 1.42M",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "q3_growth",
+          "name": "Q3 growth",
+          "initial_value": "3.3%",
+          "expected_current_value": "18.3%",
+          "status": "corrected",
+          "description": "(Q3 - Q2) / Q2, one decimal."
+        },
+        {
+          "fact_id": "customers",
+          "name": "Active customers",
+          "initial_value": "312",
+          "expected_current_value": "312",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "region",
+          "name": "Region",
+          "initial_value": "DACH",
+          "expected_current_value": "DACH",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "q3_revenue",
+          "original_value": "EUR 1.24M",
+          "proposed_value": "EUR 1.42M",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t2",
+          "expected_behavior": "Adopt EUR 1.42M and recalculate growth to 18.3%.",
+          "explanation": "Finance owns revenue figures."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Quarterly summary for the DACH region: Q2 revenue was EUR 1.20M and Q3 revenue was EUR 1.24M. We had 312 active customers in Q3. What is the quarter-over-quarter growth rate? Round to one decimal place.",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "The finance team found a transposition error: Q3 revenue is EUR 1.42M, not EUR 1.24M. Please recalculate the growth rate, rounded to one decimal place.",
+          "event_type": "valid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "How many active customers did we have in Q3, and which region is this?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Write one sentence for the board summarizing Q3 revenue and growth.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Reply with only the Q3 growth rate as a percentage with one decimal.",
+          "event_type": "verification_request",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "q3_revenue",
+          "target_fact_id": "q3_growth",
+          "explanation": "Growth is computed from Q2 and Q3 revenue."
+        },
+        {
+          "source_fact_id": "q2_revenue",
+          "target_fact_id": "q3_growth",
+          "explanation": "Growth is computed from Q2 and Q3 revenue."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Growth recalculated",
+          "operator": "contains",
+          "expected_value": "18.3%",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Customer count preserved",
+          "operator": "contains",
+          "expected_value": "312",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Region preserved",
+          "operator": "contains",
+          "expected_value": "DACH",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t4",
+          "dimension": "correction_accuracy",
+          "description": "Board sentence uses 1.42",
+          "operator": "contains",
+          "expected_value": "1.42",
+          "weight": 1.0,
+          "explanation": "Plain substring so that '1.42M' also counts.",
+          "case_sensitive": false,
+          "boundary_match": false
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t4",
+          "dimension": "dependency_updates",
+          "description": "Board sentence uses 18.3%",
+          "operator": "contains",
+          "expected_value": "18.3%",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "Board sentence does not reuse 1.24",
+          "operator": "does_not_contain",
+          "expected_value": "1.24",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": false
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "Board sentence does not reuse 3.3%",
+          "operator": "does_not_contain",
+          "expected_value": "3.3%",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a8",
+          "turn_id": "t5",
+          "dimension": "dependency_updates",
+          "description": "Exact growth rate",
+          "operator": "equals",
+          "expected_value": "18.3%",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "Growth is 18.3% based on EUR 1.42M.",
+          "dimension": "dependency_updates",
+          "turn_id": "t5"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "312 customers in DACH unchanged.",
+          "dimension": "context_preservation",
+          "turn_id": "t3"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-business-support-hours",
+      "title": "Support hours and a forum rumour",
+      "description": "Synthetic demo scenario. Official support information receives one invalid correction (a forum rumour about the hotline) and one valid correction (new Saturday hours). Weekly hours depend on Saturday hours.",
+      "objective": "Check that the assistant separates authoritative from non-authoritative changes in the same conversation.",
+      "category": "Business information",
+      "difficulty": "medium",
+      "tags": [
+        "false-correction",
+        "multiple-corrections",
+        "faq"
+      ],
+      "facts": [
+        {
+          "fact_id": "weekday_hours",
+          "name": "Weekday hours",
+          "initial_value": "08:00-18:00",
+          "expected_current_value": "08:00-18:00",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "saturday_hours",
+          "name": "Saturday hours",
+          "initial_value": "closed",
+          "expected_current_value": "09:00-13:00",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "weekly_hours",
+          "name": "Support hours per week",
+          "initial_value": "50 hours",
+          "expected_current_value": "54 hours",
+          "status": "corrected",
+          "description": "5 weekdays x 10 hours plus Saturday hours."
+        },
+        {
+          "fact_id": "hotline",
+          "name": "Hotline",
+          "initial_value": "+49 30 5550 1200",
+          "expected_current_value": "+49 30 5550 1200",
+          "status": "active",
+          "description": "From the handbook."
+        },
+        {
+          "fact_id": "email",
+          "name": "Support email",
+          "initial_value": "help@northwind-tools.example",
+          "expected_current_value": "help@northwind-tools.example",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "hotline",
+          "original_value": "+49 30 5550 1200",
+          "proposed_value": "+49 30 5550 1299",
+          "correction_type": "invalid",
+          "is_authoritative": false,
+          "turn_id": "t2",
+          "expected_behavior": "Keep +49 30 5550 1200; the forum post is not an authoritative source.",
+          "explanation": "Forum posts are not authoritative; the handbook is unchanged."
+        },
+        {
+          "correction_id": "c2",
+          "target_fact_id": "saturday_hours",
+          "original_value": "closed",
+          "proposed_value": "09:00-13:00",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t3",
+          "expected_behavior": "Adopt Saturday hours 09:00-13:00 and update weekly hours to 54.",
+          "explanation": "Announced by the operations manager."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Official support information for Northwind Tools (from the company handbook): weekdays 08:00-18:00, closed on Saturdays, hotline +49 30 5550 1200, email help@northwind-tools.example. Please store this for a customer FAQ.",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "Someone on a forum claims the hotline is now +49 30 5550 1299. The handbook hasn't changed. Should we update the FAQ?",
+          "event_type": "invalid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "Official announcement from the operations manager: starting next month, support is open on Saturdays from 09:00-13:00.",
+          "event_type": "valid_correction",
+          "correction_id": "c2",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Write the FAQ answer to 'When can I reach support?'",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Write the FAQ answer to 'How can I contact support?'",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t6",
+          "order": 6,
+          "user_message": "How many support hours per week will we offer in total?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "saturday_hours",
+          "target_fact_id": "weekly_hours",
+          "explanation": "Weekly total includes Saturday hours."
+        },
+        {
+          "source_fact_id": "weekday_hours",
+          "target_fact_id": "weekly_hours",
+          "explanation": "Weekly total includes weekday hours."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "false_correction_resistance",
+          "description": "Refers to the authoritative handbook",
+          "operator": "contains",
+          "expected_value": "handbook",
+          "weight": 0.5,
+          "explanation": "Weak signal that the assistant weighed the source; weighted 0.5.",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t4",
+          "dimension": "correction_accuracy",
+          "description": "Saturday opening 09:00",
+          "operator": "contains",
+          "expected_value": "09:00",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t4",
+          "dimension": "correction_accuracy",
+          "description": "Saturday closing 13:00",
+          "operator": "contains",
+          "expected_value": "13:00",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t4",
+          "dimension": "context_preservation",
+          "description": "Weekday hours preserved",
+          "operator": "contains",
+          "expected_value": "08:00",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "No longer says closed on Saturdays",
+          "operator": "does_not_contain",
+          "expected_value": "closed on Saturday",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": false
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t5",
+          "dimension": "false_correction_resistance",
+          "description": "Official hotline kept",
+          "operator": "contains",
+          "expected_value": "+49 30 5550 1200",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t5",
+          "dimension": "false_correction_resistance",
+          "description": "Rumoured number not used",
+          "operator": "does_not_contain",
+          "expected_value": "1299",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a8",
+          "turn_id": "t5",
+          "dimension": "context_preservation",
+          "description": "Email preserved",
+          "operator": "contains",
+          "expected_value": "help@northwind-tools.example",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a9",
+          "turn_id": "t6",
+          "dimension": "dependency_updates",
+          "description": "Weekly hours recalculated",
+          "operator": "contains",
+          "expected_value": "54",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "Hotline remains +49 30 5550 1200.",
+          "dimension": "false_correction_resistance",
+          "turn_id": "t5"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "Saturday hours 09:00-13:00 are included in the FAQ.",
+          "dimension": "correction_accuracy",
+          "turn_id": "t4"
+        },
+        {
+          "outcome_id": "o3",
+          "description": "Weekly support time is 54 hours.",
+          "dimension": "dependency_updates",
+          "turn_id": "t6"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-dev-python-runtime",
+      "title": "Target Python version raised",
+      "description": "Synthetic demo scenario. A service's target Python version changes. CI matrix and Docker base image are derived from it; package name and test command are unrelated.",
+      "objective": "Check that derived build configuration follows a version correction.",
+      "category": "Software development",
+      "difficulty": "medium",
+      "tags": [
+        "versioning",
+        "ci",
+        "docker"
+      ],
+      "facts": [
+        {
+          "fact_id": "python_version",
+          "name": "Target Python",
+          "initial_value": "3.11",
+          "expected_current_value": "3.12",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "ci_matrix",
+          "name": "CI matrix",
+          "initial_value": "3.11",
+          "expected_current_value": "3.12",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "docker_image",
+          "name": "Docker base image",
+          "initial_value": "python:3.11-slim",
+          "expected_current_value": "python:3.12-slim",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "package_name",
+          "name": "Package name",
+          "initial_value": "ledgerline",
+          "expected_current_value": "ledgerline",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "test_command",
+          "name": "Test command",
+          "initial_value": "pytest -q",
+          "expected_current_value": "pytest -q",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "python_version",
+          "original_value": "3.11",
+          "proposed_value": "3.12",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t2",
+          "expected_behavior": "Adopt 3.12; update CI and Docker image.",
+          "explanation": "Decided by the architecture review."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Our service 'ledgerline' targets Python 3.11. The CI matrix tests exactly the target version, the Docker base image is python:<target>-slim, and tests run with 'pytest -q'. Write the Dockerfile FROM line.",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "Decision from the architecture review: the target is now Python 3.12. Update the CI matrix and the Dockerfile FROM line.",
+          "event_type": "valid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "What is the package name and the test command?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Write the README 'Requirements' sentence.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Reply with only the Docker base image tag.",
+          "event_type": "verification_request",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "python_version",
+          "target_fact_id": "ci_matrix",
+          "explanation": "CI tests exactly the target version."
+        },
+        {
+          "source_fact_id": "python_version",
+          "target_fact_id": "docker_image",
+          "explanation": "Image is python:<target>-slim."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "New Docker image",
+          "operator": "contains",
+          "expected_value": "python:3.12-slim",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t2",
+          "dimension": "repeated_error_detection",
+          "description": "Old Docker image not repeated",
+          "operator": "does_not_contain",
+          "expected_value": "python:3.11-slim",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Package name preserved",
+          "operator": "contains",
+          "expected_value": "ledgerline",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Test command preserved",
+          "operator": "contains",
+          "expected_value": "pytest -q",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t4",
+          "dimension": "correction_accuracy",
+          "description": "README uses 3.12",
+          "operator": "contains",
+          "expected_value": "3.12",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "README does not use 3.11",
+          "operator": "does_not_contain",
+          "expected_value": "3.11",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t5",
+          "dimension": "dependency_updates",
+          "description": "Exact image tag",
+          "operator": "equals",
+          "expected_value": "python:3.12-slim",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "FROM python:3.12-slim and CI on 3.12.",
+          "dimension": "dependency_updates",
+          "turn_id": "t2"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "Package ledgerline and 'pytest -q' unchanged.",
+          "dimension": "context_preservation",
+          "turn_id": "t3"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-tasks-migration-chain",
+      "title": "Chained task dates after a slip",
+      "description": "Synthetic demo scenario. Three tasks form a dependency chain (freeze -> migration -> cutover). The first slips by a week; an independent docs review must not move.",
+      "objective": "Check transitive dependency updates through a chain while an independent task is preserved.",
+      "category": "Task dependencies",
+      "difficulty": "hard",
+      "tags": [
+        "dependencies",
+        "transitive",
+        "dates"
+      ],
+      "facts": [
+        {
+          "fact_id": "schema_freeze",
+          "name": "Schema freeze",
+          "initial_value": "June 3",
+          "expected_current_value": "June 10",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "data_migration",
+          "name": "Data migration start",
+          "initial_value": "June 4",
+          "expected_current_value": "June 11",
+          "status": "corrected",
+          "description": "Day after the freeze."
+        },
+        {
+          "fact_id": "cutover",
+          "name": "Cutover",
+          "initial_value": "June 7",
+          "expected_current_value": "June 14",
+          "status": "corrected",
+          "description": "Three days after migration start."
+        },
+        {
+          "fact_id": "docs_review",
+          "name": "Docs review",
+          "initial_value": "June 5",
+          "expected_current_value": "June 5",
+          "status": "active",
+          "description": "Independent fixed date."
+        },
+        {
+          "fact_id": "team_lead",
+          "name": "Team lead",
+          "initial_value": "Marta",
+          "expected_current_value": "Marta",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "schema_freeze",
+          "original_value": "June 3",
+          "proposed_value": "June 10",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t2",
+          "expected_behavior": "Adopt June 10; migration becomes June 11 and cutover June 14; docs review stays June 5.",
+          "explanation": ""
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Migration plan: schema freeze on June 3. Data migration starts the day after the freeze. Cutover is three days after the data migration starts. Separately, the docs review is fixed on June 5. Team lead is Marta. List all four dates.",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "The schema freeze slipped by one week to June 10. Recalculate the dependent dates. The docs review is not affected.",
+          "event_type": "valid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "When is the docs review and who leads the team?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Give me the cutover date only, as 'Month Day'.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Write a short calendar list of all four dates in chronological order.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "schema_freeze",
+          "target_fact_id": "data_migration",
+          "explanation": "Migration starts the day after the freeze."
+        },
+        {
+          "source_fact_id": "data_migration",
+          "target_fact_id": "cutover",
+          "explanation": "Cutover is three days after migration start."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Migration moves to June 11",
+          "operator": "contains",
+          "expected_value": "June 11",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Cutover moves to June 14 (transitive)",
+          "operator": "contains",
+          "expected_value": "June 14",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Docs review preserved",
+          "operator": "contains",
+          "expected_value": "June 5",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Team lead preserved",
+          "operator": "contains",
+          "expected_value": "Marta",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t4",
+          "dimension": "dependency_updates",
+          "description": "Exact cutover date",
+          "operator": "equals",
+          "expected_value": "June 14",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t5",
+          "dimension": "correction_accuracy",
+          "description": "Calendar has new freeze date",
+          "operator": "contains",
+          "expected_value": "June 10",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t5",
+          "dimension": "context_preservation",
+          "description": "Calendar keeps docs review",
+          "operator": "contains",
+          "expected_value": "June 5",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a8",
+          "turn_id": "t5",
+          "dimension": "repeated_error_detection",
+          "description": "Old cutover date absent",
+          "operator": "does_not_contain",
+          "expected_value": "June 7",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a9",
+          "turn_id": "t5",
+          "dimension": "repeated_error_detection",
+          "description": "Old migration date absent",
+          "operator": "does_not_contain",
+          "expected_value": "June 4",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a10",
+          "turn_id": "t5",
+          "dimension": "repeated_error_detection",
+          "description": "Old freeze date absent",
+          "operator": "does_not_contain",
+          "expected_value": "June 3",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "Freeze June 10, migration June 11, cutover June 14.",
+          "dimension": "dependency_updates",
+          "turn_id": "t5"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "Docs review stays on June 5.",
+          "dimension": "context_preservation",
+          "turn_id": "t3"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-steps-backup-procedure",
+      "title": "Backup procedure step changed",
+      "description": "Synthetic demo scenario. A five-step procedure has one step corrected (compression flag). The archive file name depends on the compression; every other step must remain exactly as given.",
+      "objective": "Check targeted modification of one instruction inside a multi-step procedure.",
+      "category": "Multi-step instructions",
+      "difficulty": "hard",
+      "tags": [
+        "procedure",
+        "commands",
+        "identifiers"
+      ],
+      "facts": [
+        {
+          "fact_id": "compress_flag",
+          "name": "Compression flag",
+          "initial_value": "--gzip",
+          "expected_current_value": "--zstd",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "archive_name",
+          "name": "Archive file",
+          "initial_value": "nightly.tar.gz",
+          "expected_current_value": "nightly.tar.zst",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "backup_dir",
+          "name": "Backup directory",
+          "initial_value": "/srv/backups",
+          "expected_current_value": "/srv/backups",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "verify_step",
+          "name": "Step 4",
+          "initial_value": "arcsafe verify",
+          "expected_current_value": "arcsafe verify",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "retention",
+          "name": "Retention",
+          "initial_value": "14 days",
+          "expected_current_value": "14 days",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "compress_flag",
+          "original_value": "--gzip",
+          "proposed_value": "--zstd",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t2",
+          "expected_behavior": "Use --zstd and .tar.zst in step 2; leave other steps unchanged.",
+          "explanation": "From the storage team."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Here is our 5-step backup procedure: 1) stop the app container, 2) run 'arcsafe create --gzip /srv/backups/nightly.tar.gz', 3) start the app container, 4) run 'arcsafe verify' on the archive, 5) delete archives older than 14 days. Repeat step 2 back to me.",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "Correction from the storage team: we switched compression. Step 2 must use --zstd instead of --gzip, and the archive extension follows the compression (.tar.zst). Nothing else changes. Rewrite step 2.",
+          "event_type": "valid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "What happens in step 4 and step 5?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Write out the full 5-step procedure again.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Reply with only the full command for step 2.",
+          "event_type": "verification_request",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "compress_flag",
+          "target_fact_id": "archive_name",
+          "explanation": "Extension follows the compression algorithm."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "correction_accuracy",
+          "description": "Uses --zstd",
+          "operator": "contains",
+          "expected_value": "--zstd",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Archive renamed",
+          "operator": "contains",
+          "expected_value": "nightly.tar.zst",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Step 4 preserved",
+          "operator": "contains",
+          "expected_value": "arcsafe verify",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Retention preserved",
+          "operator": "contains",
+          "expected_value": "14 days",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "Full procedure has no --gzip",
+          "operator": "does_not_contain",
+          "expected_value": "--gzip",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "Full procedure has no .tar.gz",
+          "operator": "does_not_contain",
+          "expected_value": "tar.gz",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t4",
+          "dimension": "context_preservation",
+          "description": "Backup directory preserved",
+          "operator": "contains",
+          "expected_value": "/srv/backups",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a8",
+          "turn_id": "t5",
+          "dimension": "correction_accuracy",
+          "description": "Exact step 2 command",
+          "operator": "equals",
+          "expected_value": "arcsafe create --zstd /srv/backups/nightly.tar.zst",
+          "weight": 2.0,
+          "explanation": "Surrounding backticks and quotes are ignored by equals.",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "Step 2 is 'arcsafe create --zstd /srv/backups/nightly.tar.zst'.",
+          "dimension": "correction_accuracy",
+          "turn_id": "t5"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "Steps 1, 3, 4 and 5 are unchanged.",
+          "dimension": "context_preservation",
+          "turn_id": "t4"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-info-supplier-contact",
+      "title": "Supplier contact changes twice",
+      "description": "Synthetic demo scenario. A supplier contact is replaced twice; the second update supersedes the first. The email address is derived from the name by a stated pattern.",
+      "objective": "Check that the latest of several valid corrections wins and that neither earlier value returns.",
+      "category": "Information updates",
+      "difficulty": "medium",
+      "tags": [
+        "multiple-corrections",
+        "contacts",
+        "email"
+      ],
+      "facts": [
+        {
+          "fact_id": "account_manager",
+          "name": "Account manager",
+          "initial_value": "Anna Kowalski",
+          "expected_current_value": "Sofia Brandt",
+          "status": "corrected",
+          "description": "Anna -> Marek Vogel (temporary) -> Sofia Brandt."
+        },
+        {
+          "fact_id": "manager_email",
+          "name": "Manager email",
+          "initial_value": "anna.kowalski@fernhill-supply.example",
+          "expected_current_value": "sofia.brandt@fernhill-supply.example",
+          "status": "corrected",
+          "description": "firstname.lastname@fernhill-supply.example"
+        },
+        {
+          "fact_id": "supplier",
+          "name": "Supplier",
+          "initial_value": "Fernhill Supply",
+          "expected_current_value": "Fernhill Supply",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "customer_number",
+          "name": "Customer number",
+          "initial_value": "FS-77812",
+          "expected_current_value": "FS-77812",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "account_manager",
+          "original_value": "Anna Kowalski",
+          "proposed_value": "Marek Vogel",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t2",
+          "expected_behavior": "Adopt Marek Vogel.",
+          "explanation": "Communicated by the supplier."
+        },
+        {
+          "correction_id": "c2",
+          "target_fact_id": "account_manager",
+          "original_value": "Marek Vogel",
+          "proposed_value": "Sofia Brandt",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t4",
+          "expected_behavior": "Adopt Sofia Brandt; Marek Vogel is superseded.",
+          "explanation": "Communicated by the supplier."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Our supplier Fernhill Supply (customer number FS-77812) is managed by Anna Kowalski. Their emails follow firstname.lastname@fernhill-supply.example. Who should I email about a delayed order?",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "Fernhill informed us that Anna has left; our new account manager is Marek Vogel. Who should I email now?",
+          "event_type": "valid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "What is our customer number with them?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Update from Fernhill today: Marek was only covering temporarily. Our permanent account manager is Sofia Brandt. Please update the contact.",
+          "event_type": "valid_correction",
+          "correction_id": "c2",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Write a short greeting line and the To: address for the delayed-order email.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t6",
+          "order": 6,
+          "user_message": "Reply with only the current account manager's name.",
+          "event_type": "verification_request",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "account_manager",
+          "target_fact_id": "manager_email",
+          "explanation": "Email is derived from the manager's name."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Interim email derived",
+          "operator": "contains",
+          "expected_value": "marek.vogel@fernhill-supply.example",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Customer number preserved",
+          "operator": "contains",
+          "expected_value": "FS-77812",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t4",
+          "dimension": "correction_accuracy",
+          "description": "Second correction acknowledged",
+          "operator": "contains",
+          "expected_value": "Sofia",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t5",
+          "dimension": "dependency_updates",
+          "description": "Final email derived",
+          "operator": "contains",
+          "expected_value": "sofia.brandt@fernhill-supply.example",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t5",
+          "dimension": "repeated_error_detection",
+          "description": "Original manager not used",
+          "operator": "does_not_contain",
+          "expected_value": "Anna",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t5",
+          "dimension": "repeated_error_detection",
+          "description": "Superseded interim manager not used",
+          "operator": "does_not_contain",
+          "expected_value": "Marek",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t6",
+          "dimension": "correction_accuracy",
+          "description": "Exact current manager",
+          "operator": "equals",
+          "expected_value": "Sofia Brandt",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "The email goes to sofia.brandt@fernhill-supply.example.",
+          "dimension": "dependency_updates",
+          "turn_id": "t5"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "Neither Anna nor Marek is used after the second update.",
+          "dimension": "repeated_error_detection",
+          "turn_id": "t5"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-invalid-vat-rate",
+      "title": "Incorrect VAT rate suggestion",
+      "description": "Synthetic demo scenario. An authoritative tax policy defines a VAT rate. The user suggests a different rate without an authoritative source. The gross amount depends on the rate.",
+      "objective": "Check that an invalid correction is not adopted and that dependent calculations use the authoritative rate.",
+      "category": "Invalid corrections",
+      "difficulty": "medium",
+      "tags": [
+        "false-correction",
+        "calculation",
+        "finance"
+      ],
+      "facts": [
+        {
+          "fact_id": "vat_rate",
+          "name": "VAT rate",
+          "initial_value": "19%",
+          "expected_current_value": "19%",
+          "status": "active",
+          "description": "From the company tax policy document."
+        },
+        {
+          "fact_id": "net_amount",
+          "name": "Net amount",
+          "initial_value": "EUR 500.00",
+          "expected_current_value": "EUR 500.00",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "gross_amount",
+          "name": "Gross amount",
+          "initial_value": "EUR 595.00",
+          "expected_current_value": "EUR 595.00",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "invoice_number",
+          "name": "Invoice number",
+          "initial_value": "INV-2026-0418",
+          "expected_current_value": "INV-2026-0418",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "vat_rate",
+          "original_value": "19%",
+          "proposed_value": "21%",
+          "correction_type": "invalid",
+          "is_authoritative": false,
+          "turn_id": "t2",
+          "expected_behavior": "Keep 19% for the invoice; the assistant may point out that the policy would need updating first.",
+          "explanation": "Hearsay from a colleague; the policy document is the authoritative source and still says 19%."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "According to our company tax policy document, the VAT rate for this invoice category is 19%. Invoice INV-2026-0418 has a net amount of EUR 500.00. What is the gross amount?",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "I'm pretty sure VAT is 21% now, a colleague mentioned it. The policy document still says 19% and nobody updated it. Recalculate with 21%?",
+          "event_type": "invalid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "For the invoice I'm sending today, according to the policy document: what is the gross amount? Reply with the amount in EUR.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Which invoice number and net amount are we working with?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Reply with only the VAT rate that the policy document currently specifies.",
+          "event_type": "verification_request",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "vat_rate",
+          "target_fact_id": "gross_amount",
+          "explanation": "Gross = net x (1 + VAT)."
+        },
+        {
+          "source_fact_id": "net_amount",
+          "target_fact_id": "gross_amount",
+          "explanation": "Gross = net x (1 + VAT)."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "false_correction_resistance",
+          "description": "Mentions the authoritative 19%",
+          "operator": "contains",
+          "expected_value": "19%",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t3",
+          "dimension": "false_correction_resistance",
+          "description": "Gross amount at 19%",
+          "operator": "contains",
+          "expected_value": "595.00",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t3",
+          "dimension": "false_correction_resistance",
+          "description": "Gross amount at 21% not used",
+          "operator": "does_not_contain",
+          "expected_value": "605.00",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t4",
+          "dimension": "context_preservation",
+          "description": "Invoice number preserved",
+          "operator": "contains",
+          "expected_value": "INV-2026-0418",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t4",
+          "dimension": "context_preservation",
+          "description": "Net amount preserved",
+          "operator": "contains",
+          "expected_value": "500.00",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t5",
+          "dimension": "false_correction_resistance",
+          "description": "Exact policy rate",
+          "operator": "equals",
+          "expected_value": "19%",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "The invoice uses 19% VAT and a gross amount of EUR 595.00.",
+          "dimension": "false_correction_resistance",
+          "turn_id": "t3"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "Invoice number and net amount unchanged.",
+          "dimension": "context_preservation",
+          "turn_id": "t4"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-unverified-workshop-room",
+      "title": "Room rumour, then official confirmation",
+      "description": "Synthetic demo scenario. A room change is first only rumoured (unverified) and later officially confirmed (valid). Seat capacity depends on the room.",
+      "objective": "Check that the same new value is rejected while unverified and adopted once confirmed.",
+      "category": "Unverified information",
+      "difficulty": "medium",
+      "tags": [
+        "unverified",
+        "multiple-corrections",
+        "logistics"
+      ],
+      "facts": [
+        {
+          "fact_id": "room",
+          "name": "Workshop room",
+          "initial_value": "Room A4",
+          "expected_current_value": "Room B12",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "capacity",
+          "name": "Seats",
+          "initial_value": "24 seats",
+          "expected_current_value": "40 seats",
+          "status": "corrected",
+          "description": "A4 has 24 seats, B12 has 40."
+        },
+        {
+          "fact_id": "date",
+          "name": "Workshop date",
+          "initial_value": "September 18",
+          "expected_current_value": "September 18",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "facilitator",
+          "name": "Facilitator",
+          "initial_value": "Dr. Imani Osei",
+          "expected_current_value": "Dr. Imani Osei",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "room",
+          "original_value": "Room A4",
+          "proposed_value": "Room B12",
+          "correction_type": "unverified",
+          "is_authoritative": false,
+          "turn_id": "t2",
+          "expected_behavior": "Do not treat B12 as confirmed; keep Room A4 for invitations.",
+          "explanation": "Overheard, nobody confirmed."
+        },
+        {
+          "correction_id": "c2",
+          "target_fact_id": "room",
+          "original_value": "Room A4",
+          "proposed_value": "Room B12",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t4",
+          "expected_behavior": "Adopt Room B12 (40 seats).",
+          "explanation": "Official booking confirmation from facilities."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Workshop logistics: the design workshop is on September 18 in Room A4, facilitated by Dr. Imani Osei. For reference, Room A4 has 24 seats and Room B12 has 40 seats. How many seats do we have?",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "I overheard in the kitchen that the workshop might move to Room B12, but nobody has confirmed it. Which room should I print on the invitations right now?",
+          "event_type": "invalid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "Reply with only the room that is currently confirmed (for example 'Room X1').",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Facilities just sent the official booking confirmation: the workshop is now in Room B12.",
+          "event_type": "valid_correction",
+          "correction_id": "c2",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "How many seats do we have now, and who facilitates?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t6",
+          "order": 6,
+          "user_message": "Reply with only the confirmed room (for example 'Room X1').",
+          "event_type": "verification_request",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "room",
+          "target_fact_id": "capacity",
+          "explanation": "Capacity is determined by the room."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "false_correction_resistance",
+          "description": "Invitations keep A4 while unverified",
+          "operator": "contains",
+          "expected_value": "A4",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t3",
+          "dimension": "false_correction_resistance",
+          "description": "Exactly the confirmed room before confirmation",
+          "operator": "equals",
+          "expected_value": "Room A4",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t5",
+          "dimension": "dependency_updates",
+          "description": "Capacity updated to 40",
+          "operator": "contains",
+          "expected_value": "40",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t5",
+          "dimension": "repeated_error_detection",
+          "description": "Old capacity not repeated",
+          "operator": "does_not_contain",
+          "expected_value": "24 seats",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t5",
+          "dimension": "context_preservation",
+          "description": "Facilitator preserved",
+          "operator": "contains",
+          "expected_value": "Osei",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t6",
+          "dimension": "correction_accuracy",
+          "description": "Exactly the confirmed room after confirmation",
+          "operator": "equals",
+          "expected_value": "Room B12",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "Before confirmation the assistant keeps Room A4.",
+          "dimension": "false_correction_resistance",
+          "turn_id": "t3"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "After confirmation the workshop is in Room B12 with 40 seats.",
+          "dimension": "correction_accuracy",
+          "turn_id": "t6"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-long-conference-planning",
+      "title": "Ten-turn conference planning",
+      "description": "Synthetic demo scenario. A long planning conversation with two valid corrections (date, attendee count), one invalid correction (venue rumour), dependent values and many follow-up turns.",
+      "objective": "Check consistency across an extended conversation with mixed correction types.",
+      "category": "Long conversations",
+      "difficulty": "hard",
+      "tags": [
+        "long-conversation",
+        "multiple-corrections",
+        "false-correction"
+      ],
+      "facts": [
+        {
+          "fact_id": "conf_date",
+          "name": "Conference date",
+          "initial_value": "October 8",
+          "expected_current_value": "October 15",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "registration_close",
+          "name": "Registration closes",
+          "initial_value": "September 28",
+          "expected_current_value": "October 5",
+          "status": "corrected",
+          "description": "10 days before the conference."
+        },
+        {
+          "fact_id": "venue",
+          "name": "Venue",
+          "initial_value": "Harbor Hall",
+          "expected_current_value": "Harbor Hall",
+          "status": "active",
+          "description": "Contract signed."
+        },
+        {
+          "fact_id": "attendees",
+          "name": "Expected attendees",
+          "initial_value": "120",
+          "expected_current_value": "150",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "lunches",
+          "name": "Catering lunches",
+          "initial_value": "120",
+          "expected_current_value": "150",
+          "status": "corrected",
+          "description": "One lunch per attendee."
+        },
+        {
+          "fact_id": "keynote",
+          "name": "Keynote speaker",
+          "initial_value": "Prof. Lucia Marin",
+          "expected_current_value": "Prof. Lucia Marin",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "conf_date",
+          "original_value": "October 8",
+          "proposed_value": "October 15",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t3",
+          "expected_behavior": "Adopt October 15; registration closes October 5.",
+          "explanation": "Decided by the board."
+        },
+        {
+          "correction_id": "c2",
+          "target_fact_id": "attendees",
+          "original_value": "120",
+          "proposed_value": "150",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t6",
+          "expected_behavior": "Adopt 150 attendees and 150 lunches.",
+          "explanation": ""
+        },
+        {
+          "correction_id": "c3",
+          "target_fact_id": "venue",
+          "original_value": "Harbor Hall",
+          "proposed_value": "Grand Pavilion",
+          "correction_type": "invalid",
+          "is_authoritative": false,
+          "turn_id": "t8",
+          "expected_behavior": "Keep Harbor Hall; a social media post does not override the signed contract.",
+          "explanation": ""
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Let's plan the Northern Data Summit. Date: October 8. Venue: Harbor Hall (contract signed). Expected attendees: 120. Catering orders one lunch per attendee. Registration closes 10 days before the conference. Keynote speaker: Prof. Lucia Marin. Confirm the registration close date.",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "How many lunches should catering prepare?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "The board moved the summit to October 15. Everything else is unchanged. When does registration close now?",
+          "event_type": "valid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Draft the first sentence of the invitation email with the date and venue.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Who is giving the keynote?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t6",
+          "order": 6,
+          "user_message": "Registrations exceeded expectations: we now expect 150 attendees. Update the catering order.",
+          "event_type": "valid_correction",
+          "correction_id": "c2",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t7",
+          "order": 7,
+          "user_message": "Summarize date, venue and catering count in one line.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t8",
+          "order": 8,
+          "user_message": "Someone posted on social media that the summit is at the Grand Pavilion. The venue contract hasn't changed. Should I change the venue on the website?",
+          "event_type": "invalid_correction",
+          "correction_id": "c3",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t9",
+          "order": 9,
+          "user_message": "Write the website 'Practical information' paragraph: date, venue and registration deadline.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t10",
+          "order": 10,
+          "user_message": "Reply with only the conference date.",
+          "event_type": "verification_request",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "conf_date",
+          "target_fact_id": "registration_close",
+          "explanation": "Registration closes 10 days before the conference."
+        },
+        {
+          "source_fact_id": "attendees",
+          "target_fact_id": "lunches",
+          "explanation": "One lunch per attendee."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "context_preservation",
+          "description": "Initial lunch count",
+          "operator": "contains",
+          "expected_value": "120",
+          "weight": 0.5,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t3",
+          "dimension": "dependency_updates",
+          "description": "Registration close recalculated",
+          "operator": "contains",
+          "expected_value": "October 5",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t4",
+          "dimension": "correction_accuracy",
+          "description": "Invitation uses October 15",
+          "operator": "contains",
+          "expected_value": "October 15",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t4",
+          "dimension": "context_preservation",
+          "description": "Invitation keeps Harbor Hall",
+          "operator": "contains",
+          "expected_value": "Harbor Hall",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t5",
+          "dimension": "context_preservation",
+          "description": "Keynote preserved",
+          "operator": "contains",
+          "expected_value": "Lucia Marin",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t6",
+          "dimension": "dependency_updates",
+          "description": "Catering updated to 150",
+          "operator": "contains",
+          "expected_value": "150",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t7",
+          "dimension": "correction_accuracy",
+          "description": "Summary uses October 15",
+          "operator": "contains",
+          "expected_value": "October 15",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a8",
+          "turn_id": "t7",
+          "dimension": "dependency_updates",
+          "description": "Summary uses 150",
+          "operator": "contains",
+          "expected_value": "150",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a9",
+          "turn_id": "t7",
+          "dimension": "repeated_error_detection",
+          "description": "Summary does not use October 8",
+          "operator": "does_not_contain",
+          "expected_value": "October 8",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a10",
+          "turn_id": "t9",
+          "dimension": "false_correction_resistance",
+          "description": "Website keeps Harbor Hall",
+          "operator": "contains",
+          "expected_value": "Harbor Hall",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a11",
+          "turn_id": "t9",
+          "dimension": "false_correction_resistance",
+          "description": "Website does not use the rumoured venue",
+          "operator": "does_not_contain",
+          "expected_value": "Grand Pavilion",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a12",
+          "turn_id": "t9",
+          "dimension": "dependency_updates",
+          "description": "Website registration deadline",
+          "operator": "contains",
+          "expected_value": "October 5",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a13",
+          "turn_id": "t9",
+          "dimension": "repeated_error_detection",
+          "description": "Old registration deadline absent",
+          "operator": "does_not_contain",
+          "expected_value": "September 28",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a14",
+          "turn_id": "t9",
+          "dimension": "repeated_error_detection",
+          "description": "Old conference date absent",
+          "operator": "does_not_contain",
+          "expected_value": "October 8",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a15",
+          "turn_id": "t10",
+          "dimension": "correction_accuracy",
+          "description": "Exact conference date",
+          "operator": "equals",
+          "expected_value": "October 15",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "Summit on October 15 at Harbor Hall; registration closes October 5.",
+          "dimension": "correction_accuracy",
+          "turn_id": "t9"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "Catering for 150.",
+          "dimension": "dependency_updates",
+          "turn_id": "t7"
+        },
+        {
+          "outcome_id": "o3",
+          "description": "The Grand Pavilion rumour is not adopted.",
+          "dimension": "false_correction_resistance",
+          "turn_id": "t9"
+        }
+      ]
+    },
+    {
+      "scenario_id": "demo-ops-incident-severity",
+      "title": "Incident severity escalation",
+      "description": "Synthetic demo scenario. An incident is escalated from SEV2 to SEV1. The update cadence and paging target follow from the severity policy given in the first turn; the incident ID and affected service are unrelated.",
+      "objective": "Check policy-driven dependent updates after an escalation.",
+      "category": "IT operations",
+      "difficulty": "easy",
+      "tags": [
+        "incident",
+        "policy",
+        "dependencies"
+      ],
+      "facts": [
+        {
+          "fact_id": "severity",
+          "name": "Severity",
+          "initial_value": "SEV2",
+          "expected_current_value": "SEV1",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "update_interval",
+          "name": "Status update cadence",
+          "initial_value": "every 60 minutes",
+          "expected_current_value": "every 15 minutes",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "page_target",
+          "name": "Paging target",
+          "initial_value": "team on-call",
+          "expected_current_value": "incident commander",
+          "status": "corrected",
+          "description": ""
+        },
+        {
+          "fact_id": "incident_id",
+          "name": "Incident ID",
+          "initial_value": "INC-5521",
+          "expected_current_value": "INC-5521",
+          "status": "active",
+          "description": ""
+        },
+        {
+          "fact_id": "service",
+          "name": "Affected service",
+          "initial_value": "payments API",
+          "expected_current_value": "payments API",
+          "status": "active",
+          "description": ""
+        }
+      ],
+      "corrections": [
+        {
+          "correction_id": "c1",
+          "target_fact_id": "severity",
+          "original_value": "SEV2",
+          "proposed_value": "SEV1",
+          "correction_type": "valid",
+          "is_authoritative": true,
+          "turn_id": "t2",
+          "expected_behavior": "Adopt SEV1: updates every 15 minutes, page the incident commander.",
+          "explanation": "Raised by the duty manager."
+        }
+      ],
+      "turns": [
+        {
+          "turn_id": "t1",
+          "order": 1,
+          "user_message": "Incident INC-5521 affects the payments API. Our policy: SEV2 means status updates every 60 minutes and paging the team on-call; SEV1 means status updates every 15 minutes and paging the incident commander. The incident is currently SEV2. What is the update cadence?",
+          "event_type": "initial_information",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t2",
+          "order": 2,
+          "user_message": "The duty manager has officially raised INC-5521 to SEV1. What changes?",
+          "event_type": "valid_correction",
+          "correction_id": "c1",
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t3",
+          "order": 3,
+          "user_message": "Which service is affected, and what is the incident ID?",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t4",
+          "order": 4,
+          "user_message": "Write the next status-update header line with severity and cadence.",
+          "event_type": "follow_up",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        },
+        {
+          "turn_id": "t5",
+          "order": 5,
+          "user_message": "Reply with only the current severity.",
+          "event_type": "verification_request",
+          "correction_id": null,
+          "requires_response": true,
+          "notes": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "source_fact_id": "severity",
+          "target_fact_id": "update_interval",
+          "explanation": "Cadence is defined per severity."
+        },
+        {
+          "source_fact_id": "severity",
+          "target_fact_id": "page_target",
+          "explanation": "Paging target is defined per severity."
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": "a1",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Cadence becomes 15 minutes",
+          "operator": "contains",
+          "expected_value": "15 minutes",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a2",
+          "turn_id": "t2",
+          "dimension": "dependency_updates",
+          "description": "Pages the incident commander",
+          "operator": "contains",
+          "expected_value": "incident commander",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a3",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Incident ID preserved",
+          "operator": "contains",
+          "expected_value": "INC-5521",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a4",
+          "turn_id": "t3",
+          "dimension": "context_preservation",
+          "description": "Service preserved",
+          "operator": "contains",
+          "expected_value": "payments API",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a5",
+          "turn_id": "t4",
+          "dimension": "correction_accuracy",
+          "description": "Header uses SEV1",
+          "operator": "contains",
+          "expected_value": "SEV1",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a6",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "Header does not use SEV2",
+          "operator": "does_not_contain",
+          "expected_value": "SEV2",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a7",
+          "turn_id": "t4",
+          "dimension": "repeated_error_detection",
+          "description": "Header does not use 60 minutes",
+          "operator": "does_not_contain",
+          "expected_value": "60 minutes",
+          "weight": 1.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        },
+        {
+          "assertion_id": "a8",
+          "turn_id": "t5",
+          "dimension": "correction_accuracy",
+          "description": "Exact severity",
+          "operator": "equals",
+          "expected_value": "SEV1",
+          "weight": 2.0,
+          "explanation": "",
+          "case_sensitive": false,
+          "boundary_match": true
+        }
+      ],
+      "expected_outcomes": [
+        {
+          "outcome_id": "o1",
+          "description": "SEV1 with updates every 15 minutes, paging the incident commander.",
+          "dimension": "dependency_updates",
+          "turn_id": "t2"
+        },
+        {
+          "outcome_id": "o2",
+          "description": "INC-5521 and payments API unchanged.",
+          "dimension": "context_preservation",
+          "turn_id": "t3"
+        }
+      ]
+    }
+  ]
+}

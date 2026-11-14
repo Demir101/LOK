@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="168" height="40" viewBox="0 0 168 40" role="img" aria-label="LOK — LOOK FOR IT">
+  <circle cx="16" cy="17" r="10" fill="none" stroke="#2a78d6" stroke-width="3.5"/>
+  <line x1="23.5" y1="24.5" x2="31" y2="32" stroke="#2a78d6" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="16" cy="17" r="3.2" fill="#2a78d6"/>
+  <text x="40" y="24" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" letter-spacing="3" fill="#52514e">LOK</text>
+  <text x="41" y="36" font-family="Helvetica, Arial, sans-serif" font-size="7.5" font-weight="700" letter-spacing="2.2" fill="#2a78d6">LOOK FOR IT</text>
+</svg>
